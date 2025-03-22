@@ -6,7 +6,7 @@ from sqlalchemy.exc import OperationalError
 import os
 
 db_password = os.getenv("DB_PASSWORD")
-DATABASE_URL = os.getenv("DATABASE_URL", f"postgresql://user:{db_password}@localhost/fastapi_db")
+DATABASE_URL = os.getenv("DATABASE_URL", f"postgresql://user:{db_password}@postgres/fastapi_db")
 
 engine = create_engine(DATABASE_URL, echo=True)
 
