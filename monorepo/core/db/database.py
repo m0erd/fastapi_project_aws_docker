@@ -1,9 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import OperationalError
+
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:pass@localhost/taskdb")
+db_password = os.getenv("DB_PASSWORD")
+DATABASE_URL = os.getenv("DATABASE_URL", f"postgresql://user:{db_password}@localhost/fastapi_db")
 
 engine = create_engine(DATABASE_URL, echo=True)
 
@@ -23,5 +26,7 @@ def get_db():
 try:
     with engine.connect() as connection:
         print("✅ Database connected successfully!")
+except OperationalError as e:
+    print(f"❌ OperationalError: {e}")
 except Exception as e:
     print(f"❌ Database connection failed: {e}")
