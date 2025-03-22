@@ -6,11 +6,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: fastapi_db
-      DB_USER: user
-      DB_PASSWORD: ${DB_PASSWORD}
+      - DATABASE_URL=postgresql://user:${DB_PASSWORD}@postgres:5432/fastapi_db
     depends_on:
       - postgres
     networks:
@@ -19,11 +15,17 @@ services:
   postgres:
     image: postgres:13
     environment:
-      POSTGRES_DB: fastapi_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      - POSTGRES_DB=fastapi_db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "user", "-d", "fastapi_db"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
     networks:
       - fastapi_network
 
