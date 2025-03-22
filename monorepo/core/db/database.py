@@ -5,7 +5,7 @@ from sqlalchemy.exc import OperationalError
 
 import os
 
-db_password = os.getenv("DB_PASSWORD")
+db_password = os.getenv('DB_PASSWORD')
 DATABASE_URL = os.getenv("DATABASE_URL", f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}")
 
 engine = create_engine(DATABASE_URL, echo=True)
