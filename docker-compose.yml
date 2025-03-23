@@ -4,12 +4,6 @@ services:
     build:
       context: ./fastapi_project
       dockerfile: Dockerfile
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: user
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: fastapi_db
     ports:
       - "8000:8000"
     depends_on:
@@ -21,7 +15,7 @@ services:
     image: postgres:13
     environment:
       POSTGRES_USER: user
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: Sometime
       POSTGRES_DB: fastapi_db
     networks:
       - app_network
