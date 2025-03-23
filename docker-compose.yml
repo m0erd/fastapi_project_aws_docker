@@ -2,7 +2,7 @@ version: "3.8"
 services:
   fastapi:
     build:
-      context: ./fastapi_project
+      context: ./home/ec2-user/fastapi_project_aws_docker
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
