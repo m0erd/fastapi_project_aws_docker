@@ -7,16 +7,16 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
-WORKDIR /app
+WORKDIR /fastapi_project
 
 # Copy requirements file
-COPY requirements.txt /app/
+COPY requirements.txt /fastapi_project/
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the project
-COPY . /app/
+COPY . /fastapi_project/
 
 # Expose the port the app will run on
 EXPOSE 8000
