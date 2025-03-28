@@ -1,33 +1,26 @@
-version: "3.8"
 services:
-  fastapi:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  db:
+    image: postgres:latest
+    container_name: postgresql_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: fastapi_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: fastapi_container
+    environment:
+      DATABASE_URL: postgresql://postgres:pass@postgresql_container:5432/fastapi_db
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
-    networks:
-      - app_network
-
-  postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: Sometime
-      POSTGRES_DB: fastapi_db
-    networks:
-      - app_network
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-networks:
-  app_network:
-    driver: bridge
+      - db
+    entrypoint: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 volumes:
-  postgres_data:
-    driver: local
+  db_data:

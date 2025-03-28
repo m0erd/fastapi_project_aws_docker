@@ -28,7 +28,7 @@ class LedgerEntryModel(Base):
     created_on = Column(DateTime, default=datetime.utcnow, nullable=False)
 
 
-DATABASE_URL = "postgresql://postgres:pass@localhost/taskdb"
+DATABASE_URL = "postgresql://postgres:pass@postgresql_container/fastapi_db"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
